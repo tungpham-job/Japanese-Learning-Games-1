@@ -433,7 +433,7 @@ body {
   color: var(--accent);
   line-height: 1;
 }
-.card-hint { font-size: 0.78rem; color: var(--muted); margin-top: 14px; letter-spacing: 1px; }
+.card-hint { font-size: 0.82rem; color: var(--muted); margin-top: 14px; font-weight: 500; letter-spacing: 0.3px; }
 .romaji-big { font-size: 3rem; font-weight: 700; color: var(--accent3); letter-spacing: 2px; }
 .fc-controls {
   display: flex;
@@ -475,6 +475,7 @@ body {
   line-height: 1;
 }
 .q-prompt { color: var(--muted); font-size: 0.82rem; margin-top: 12px; }
+.game-hint { color: var(--muted); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.3px; text-align: center; margin-top: 10px; }
 .quiz-options {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -975,7 +976,7 @@ body {
       </div>
       <div class="q-card">
         <div class="q-kana" id="q-kana">?</div>
-        <div class="q-prompt" id="q-prompt">Chọn romaji đúng</div>
+        <div class="q-prompt game-hint" id="q-prompt">Chọn romaji đúng</div>
       </div>
       <div class="feedback-msg" id="q-feedback"></div>
       <div class="quiz-options" id="quiz-options"></div>
@@ -1073,6 +1074,7 @@ body {
       <div class="sr-display">
         <div class="sr-kana" id="sr-kana">?</div>
         <div class="sr-timer-ring" id="sr-timer">3</div>
+        <div id="sr-hint" class="game-hint" style="position:absolute;bottom:12px;left:0;right:0">Chọn romaji đúng</div>
       </div>
       <div class="sr-feedback" id="sr-feedback"></div>
       <div class="sr-options" id="sr-options"></div>
@@ -1664,7 +1666,12 @@ function toggleSpeedReverse() {
   srReverse = !srReverse;
   const btn = document.getElementById('sr-reverse-btn');
   if (btn) { btn.style.borderColor = srReverse ? 'var(--accent2)' : ''; btn.style.color = srReverse ? 'var(--accent2)' : ''; }
+  updateSRHint();
   resetSpeed();
+}
+function updateSRHint() {
+  const el = document.getElementById('sr-hint');
+  if (el) el.textContent = srReverse ? 'Chọn kana đúng' : 'Chọn romaji đúng';
 }
 
 function resetSpeed() {
