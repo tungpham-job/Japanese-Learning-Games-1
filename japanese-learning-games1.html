@@ -33,157 +33,140 @@ body {
 }
 
 /* ══════════════════════════════
-   SETUP ZONE
+   COMPACT HEADER
 ══════════════════════════════ */
-.setup-zone {
+.app-header {
   background: linear-gradient(180deg, #12162a 0%, #0D0F1A 100%);
   border-bottom: 1px solid var(--border);
-  padding: 32px 20px 28px;
-  text-align: center;
+  padding: 16px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
-
-/* Title */
+.header-title { flex: 1; }
 .title-jp {
   font-family: 'Noto Sans JP', sans-serif;
-  font-size: 2.4rem;
+  font-size: 1.6rem;
   font-weight: 900;
   color: var(--accent);
   line-height: 1;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
-.title-en {
-  font-size: 0.8rem;
+.title-sub {
+  font-size: 0.68rem;
   color: var(--muted);
-  margin-top: 6px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 400;
+  margin-top: 3px;
+  letter-spacing: 1px;
 }
-
-/* Script toggle */
-.script-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  margin: 22px auto 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 50px;
-  padding: 5px;
-  width: fit-content;
-}
-.script-btn {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  padding: 10px 28px;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.25s;
-}
-.script-btn.active { background: var(--accent); color: #0D0F1A; }
-
-.cat-row {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.cat-btn {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--muted);
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  padding: 6px 16px;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  line-height: 1.3;
-  text-align: center;
-}
-.cat-btn .cat-main { font-size: 0.78rem; }
-.cat-btn .cat-sub { font-size: 0.62rem; color: var(--muted); font-weight: 400; }
-.cat-btn.active {
-  background: var(--card);
-  border-color: var(--accent2);
-  color: var(--accent2);
-}
-.cat-btn.active .cat-sub { color: var(--accent2); opacity: 0.7; }
-
-/* ══════════════════════════════
-   GAME ZONE
-══════════════════════════════ */
-.game-zone {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 16px 16px 0;
-  display: flex;
-  gap: 0;
-  align-items: flex-start;
-  position: relative;
-}
-
-/* Sidebar toggle button */
-.sidebar-toggle {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
+.header-icons { display: flex; gap: 8px; align-items: center; }
+.hdr-icon-btn {
+  width: 38px; height: 38px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--muted);
   border-radius: 10px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
   transition: all 0.2s;
-  margin-top: 4px;
-  z-index: 10;
+  flex-shrink: 0;
 }
-.sidebar-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.hdr-icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.hdr-icon-btn.active { border-color: var(--accent); background: var(--card); color: var(--accent); }
 
-/* Sidebar */
-.game-sidebar {
+/* ══════════════════════════════
+   GAME ZONE  (panels + window)
+══════════════════════════════ */
+.game-zone {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 14px 14px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+/* Shared panel style */
+.side-panel {
   flex-shrink: 0;
   width: 0;
   overflow: hidden;
-  transition: width 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
   opacity: 0;
+  transition: width 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.22s ease;
 }
-.game-sidebar.open {
-  width: 160px;
-  opacity: 1;
-  margin-right: 10px;
-  margin-left: 8px;
-}
-.sidebar-inner {
-  width: 160px;
+.side-panel.open { width: 148px; opacity: 1; }
+.panel-inner {
+  width: 148px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 10px 8px;
+  padding: 12px 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
-.sidebar-label {
-  font-size: 0.65rem;
+.panel-label {
+  font-size: 0.62rem;
   color: var(--muted);
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: 600;
-  padding: 4px 8px 6px;
+  padding: 0 4px 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
 }
+
+/* ── Settings panel specific ── */
+/* Script toggle gạt (pill) */
+.script-gat {
+  display: flex;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 3px;
+  gap: 0;
+}
+.script-gat-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 4px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.22s;
+  text-align: center;
+  line-height: 1.2;
+}
+.script-gat-btn.active { background: var(--accent); color: #0D0F1A; }
+
+/* Cat buttons dọc */
+.cat-btn {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: left;
+  width: 100%;
+}
+.cat-btn .cat-main { font-size: 0.78rem; }
+.cat-btn .cat-sub { font-size: 0.6rem; color: var(--muted); font-weight: 400; }
+.cat-btn.active { border-color: var(--accent2); color: var(--accent2); background: #1E2440; }
+.cat-btn.active .cat-sub { color: var(--accent2); opacity: 0.7; }
+
+/* ── Game list panel specific ── */
 .tab-btn {
   border: 1px solid transparent;
   background: transparent;
@@ -191,7 +174,7 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
-  padding: 9px 12px;
+  padding: 9px 10px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.18s;
@@ -212,9 +195,8 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px 24px;
+  padding: 24px 20px;
   min-height: 420px;
-  margin-left: 8px;
 }
 
 /* ─── FLASHCARD ─── */
@@ -487,48 +469,6 @@ body {
   border-radius: 50px;
   transition: width 0.3s;
 }
-/* ─── SETUP TOGGLE ─── */
-.setup-controls {
-  overflow: hidden;
-  max-height: 300px;
-  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, margin 0.3s ease;
-  opacity: 1;
-  margin-top: 0;
-}
-.setup-controls.hidden {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
-}
-.setup-zone {
-  position: relative;
-}
-.setup-toggle-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 5px 14px;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.setup-toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
-.toggle-arrow {
-  display: inline-block;
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  font-style: normal;
-  font-size: 0.8rem;
-  line-height: 1;
-}
-.toggle-arrow.up { transform: rotate(180deg); }
-
 /* ─── SPEED RECOGNITION ─── */
 #game-speed .sr-display {
   background: var(--card);
@@ -660,22 +600,34 @@ body {
 <body>
 
 <!-- ══════════════════════════════════════
-     SETUP ZONE
+     COMPACT HEADER
 ══════════════════════════════════════ -->
-<div class="setup-zone">
-  <div class="title-jp">日本語学習</div>
-  <div class="title-en">Japanese Learning Games</div>
+<div class="app-header">
+  <div class="header-title">
+    <div class="title-jp">日本語学習</div>
+    <div class="title-sub" id="header-sub">ひらがな · Basic</div>
+  </div>
+  <div class="header-icons">
+    <button class="hdr-icon-btn" id="btn-panel-settings" onclick="togglePanel('settings')" title="Thiết lập">⚙</button>
+    <button class="hdr-icon-btn" id="btn-panel-games" onclick="togglePanel('games')" title="Chọn game">☰</button>
+  </div>
+</div>
 
-  <!-- Setup controls (collapsible) -->
-  <div class="setup-controls" id="setup-controls">
-    <!-- Script toggle -->
-    <div class="script-toggle">
-      <button class="script-btn active" id="btn-hira" onclick="setScript('hiragana')">ひらがな Hiragana</button>
-      <button class="script-btn" id="btn-kata" onclick="setScript('katakana')">カタカナ Katakana</button>
-    </div>
+<!-- ══════════════════════════════════════
+     GAME ZONE
+══════════════════════════════════════ -->
+<div class="game-zone">
 
-    <!-- Category selector -->
-    <div class="cat-row">
+  <!-- Panel: Thiết lập -->
+  <div class="side-panel" id="panel-settings">
+    <div class="panel-inner">
+      <div class="panel-label">Thiết lập</div>
+      <!-- Script toggle gạt dọc -->
+      <div class="script-gat">
+        <button class="script-gat-btn active" id="btn-hira" onclick="setScript('hiragana')">ひら<br>Hira</button>
+        <button class="script-gat-btn" id="btn-kata" onclick="setScript('katakana')">カタ<br>Kata</button>
+      </div>
+      <!-- 3 cat buttons dọc -->
       <button class="cat-btn active" id="cat-basic" onclick="toggleCat('basic')">
         <span class="cat-main">🔤 Basic</span>
         <span class="cat-sub">46 ký tự cơ bản</span>
@@ -691,25 +643,10 @@ body {
     </div>
   </div>
 
-  <!-- Toggle button -->
-  <button class="setup-toggle-btn" id="setup-toggle-btn" onclick="toggleSetup()">
-    <i id="toggle-arrow" class="toggle-arrow up">▲</i>
-    <span id="toggle-label">Ẩn thiết lập</span>
-  </button>
-</div>
-
-<!-- ══════════════════════════════════════
-     GAME ZONE
-══════════════════════════════════════ -->
-<div class="game-zone">
-
-  <!-- Sidebar toggle -->
-  <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleSidebar()" title="Chọn game">☰</button>
-
-  <!-- Sidebar -->
-  <div class="game-sidebar" id="game-sidebar">
-    <div class="sidebar-inner">
-      <div class="sidebar-label">Chọn game</div>
+  <!-- Panel: Danh sách game -->
+  <div class="side-panel" id="panel-games">
+    <div class="panel-inner">
+      <div class="panel-label">Chọn game</div>
       <button class="tab-btn active" onclick="setGame('flashcard')"><span>🃏</span> Flashcard</button>
       <button class="tab-btn" onclick="setGame('quiz')"><span>🎯</span> Quiz</button>
       <button class="tab-btn" onclick="setGame('typing')"><span>⌨️</span> Typing</button>
@@ -995,13 +932,14 @@ function setScript(s) {
   currentScript = s;
   document.getElementById('btn-hira').classList.toggle('active', s==='hiragana');
   document.getElementById('btn-kata').classList.toggle('active', s==='katakana');
+  updateHeaderSub();
   resetCurrentGame();
 }
 
 // Toggle category
 function toggleCat(c) {
   if (activeCategories.includes(c)) {
-    if (activeCategories.length === 1) return; // keep at least 1
+    if (activeCategories.length === 1) return;
     activeCategories = activeCategories.filter(x => x !== c);
   } else {
     activeCategories.push(c);
@@ -1009,15 +947,32 @@ function toggleCat(c) {
   document.getElementById('cat-basic').classList.toggle('active', activeCategories.includes('basic'));
   document.getElementById('cat-dakuten').classList.toggle('active', activeCategories.includes('dakuten'));
   document.getElementById('cat-combo').classList.toggle('active', activeCategories.includes('combo'));
+  updateHeaderSub();
   resetCurrentGame();
 }
 
-// Sidebar toggle
-let sidebarOpen = false;
-function toggleSidebar() {
-  sidebarOpen = !sidebarOpen;
-  document.getElementById('game-sidebar').classList.toggle('open', sidebarOpen);
-  document.getElementById('sidebar-toggle').textContent = sidebarOpen ? '✕' : '☰';
+// Panel toggle (settings | games) — chỉ 1 panel mở tại 1 thời điểm
+let openPanel = null;
+function togglePanel(name) {
+  const isSame = openPanel === name;
+  // Đóng tất cả
+  ['settings','games'].forEach(p => {
+    document.getElementById('panel-'+p).classList.remove('open');
+    document.getElementById('btn-panel-'+p).classList.remove('active');
+  });
+  if (!isSame) {
+    document.getElementById('panel-'+name).classList.add('open');
+    document.getElementById('btn-panel-'+name).classList.add('active');
+    openPanel = name;
+  } else {
+    openPanel = null;
+  }
+}
+
+function updateHeaderSub() {
+  const script = currentScript === 'hiragana' ? 'ひらがな' : 'カタカナ';
+  const cats = activeCategories.map(c => c === 'basic' ? 'Basic' : c === 'dakuten' ? 'Dakuten' : 'Combo').join(' · ');
+  document.getElementById('header-sub').textContent = script + ' · ' + cats;
 }
 
 // Switch game mode
@@ -1030,10 +985,10 @@ function setGame(g) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
     b.classList.toggle('active', ALL_GAMES[i]===g);
   });
-  // Đóng sidebar sau khi chọn
-  sidebarOpen = false;
-  document.getElementById('game-sidebar').classList.remove('open');
-  document.getElementById('sidebar-toggle').textContent = '☰';
+  // Đóng panel game sau khi chọn
+  document.getElementById('panel-games').classList.remove('open');
+  document.getElementById('btn-panel-games').classList.remove('active');
+  openPanel = null;
   resetCurrentGame();
 }
 
@@ -1549,20 +1504,6 @@ function updateLPScore() {
   document.getElementById('lp-correct').textContent = lpCorrect;
   document.getElementById('lp-wrong').textContent = lpWrong;
   document.getElementById('lp-total').textContent = lpCorrect+lpWrong;
-}
-
-// ═══════════════════════════════════════════
-// SETUP TOGGLE
-// ═══════════════════════════════════════════
-let setupVisible = true;
-function toggleSetup() {
-  setupVisible = !setupVisible;
-  const ctrl = document.getElementById('setup-controls');
-  const arrow = document.getElementById('toggle-arrow');
-  const label = document.getElementById('toggle-label');
-  ctrl.classList.toggle('hidden', !setupVisible);
-  arrow.classList.toggle('up', setupVisible);
-  label.textContent = setupVisible ? 'Ẩn thiết lập' : 'Hiện thiết lập';
 }
 
 // ═══════════════════════════════════════════
