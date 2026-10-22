@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>日本語学習 — Japanese Learning Games</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 <style>
 :root {
   --bg: #0D0F1A;
@@ -187,6 +188,16 @@ body {
 }
 .tab-btn:hover { background: var(--card); color: var(--text); }
 .tab-btn.active { background: var(--card); border-color: var(--border); color: var(--accent); }
+
+/* Lucide icons */
+[data-lucide] { width: 18px; height: 18px; stroke-width: 2; vertical-align: middle; flex-shrink: 0; }
+.hdr-icon-btn [data-lucide] { width: 17px; height: 17px; }
+.tab-btn [data-lucide] { width: 15px; height: 15px; stroke: currentColor; }
+.cat-btn [data-lucide] { width: 14px; height: 14px; stroke: currentColor; }
+.game-window-header [data-lucide] { width: 15px; height: 15px; stroke: var(--accent); }
+.lp-speak-btn [data-lucide] { width: 40px; height: 40px; stroke-width: 1.5; stroke: currentColor; }
+.fc-controls [data-lucide] { width: 15px; height: 15px; stroke: currentColor; }
+.btn-start [data-lucide] { width: 14px; height: 14px; stroke: currentColor; }
 
 /* Game window */
 .game-window {
@@ -650,8 +661,8 @@ body {
     <div class="title-sub" id="header-sub">ひらがな · Basic</div>
   </div>
   <div class="header-icons">
-    <button class="hdr-icon-btn" id="btn-panel-settings" onclick="togglePanel('settings')" title="Thiết lập">⚙</button>
-    <button class="hdr-icon-btn" id="btn-panel-games" onclick="togglePanel('games')" title="Chọn game">☰</button>
+    <button class="hdr-icon-btn" id="btn-panel-settings" onclick="togglePanel('settings')" title="Thiết lập"><i data-lucide="settings"></i></button>
+    <button class="hdr-icon-btn" id="btn-panel-games" onclick="togglePanel('games')" title="Chọn game"><i data-lucide="menu"></i></button>
   </div>
 </div>
 
@@ -671,15 +682,15 @@ body {
       </div>
       <!-- 3 cat buttons dọc -->
       <button class="cat-btn active" id="cat-basic" onclick="toggleCat('basic')">
-        <span class="cat-main">🔤 Basic</span>
+        <span class="cat-main"><i data-lucide="grid-2x2"></i> Basic</span>
         <span class="cat-sub">46 ký tự cơ bản</span>
       </button>
       <button class="cat-btn" id="cat-dakuten" onclick="toggleCat('dakuten')">
-        <span class="cat-main">゛゜ Dakuten</span>
+        <span class="cat-main"><i data-lucide="dot"></i> Dakuten</span>
         <span class="cat-sub">Dakuon &amp; Handakuon</span>
       </button>
       <button class="cat-btn" id="cat-combo" onclick="toggleCat('combo')">
-        <span class="cat-main">🔀 Combo</span>
+        <span class="cat-main"><i data-lucide="combine"></i> Combo</span>
         <span class="cat-sub">Yoon: ghép や ゆ よ nhỏ</span>
       </button>
     </div>
@@ -689,12 +700,12 @@ body {
   <div class="side-panel" id="panel-games">
     <div class="panel-inner">
       <div class="panel-label">Chọn game</div>
-      <button class="tab-btn active" onclick="setGame('flashcard')"><span>🃏</span> Flashcard</button>
-      <button class="tab-btn" onclick="setGame('quiz')"><span>🎯</span> Quiz</button>
-      <button class="tab-btn" onclick="setGame('typing')"><span>⌨️</span> Typing</button>
-      <button class="tab-btn" onclick="setGame('matching')"><span>🔗</span> Matching</button>
-      <button class="tab-btn" onclick="setGame('speed')"><span>⚡</span> Speed Rec</button>
-      <button class="tab-btn" onclick="setGame('listen')"><span>👂</span> Listen</button>
+      <button class="tab-btn active" onclick="setGame('flashcard')"><i data-lucide="layers"></i> Flashcard</button>
+      <button class="tab-btn" onclick="setGame('quiz')"><i data-lucide="list-checks"></i> Quiz</button>
+      <button class="tab-btn" onclick="setGame('typing')"><i data-lucide="keyboard"></i> Typing</button>
+      <button class="tab-btn" onclick="setGame('matching')"><i data-lucide="link-2"></i> Matching</button>
+      <button class="tab-btn" onclick="setGame('speed')"><i data-lucide="zap"></i> Speed Rec</button>
+      <button class="tab-btn" onclick="setGame('listen')"><i data-lucide="ear"></i> Listen</button>
     </div>
   </div>
 
@@ -703,7 +714,7 @@ body {
 
     <!-- Inner game title bar -->
     <div class="game-window-header">
-      <span class="game-icon" id="gwin-icon">🃏</span>
+      <i id="gwin-icon" data-lucide="layers"></i>
       <span class="game-name" id="gwin-name">Flashcard</span>
     </div>
 
@@ -724,10 +735,10 @@ body {
         </div>
       </div>
       <div class="fc-controls">
-        <button onclick="fcNav(-1)">← Prev</button>
+        <button onclick="fcNav(-1)"><i data-lucide="chevron-left"></i> Prev</button>
         <span class="progress-text" id="fc-progress">1 / 46</span>
-        <button onclick="fcNav(1)">Next →</button>
-        <button class="btn-primary" onclick="fcShuffle()">🔀 Shuffle</button>
+        <button onclick="fcNav(1)">Next <i data-lucide="chevron-right"></i></button>
+        <button class="btn-primary" onclick="fcShuffle()"><i data-lucide="shuffle"></i> Shuffle</button>
       </div>
     </div>
 
@@ -746,7 +757,7 @@ body {
       <div class="feedback-msg" id="q-feedback"></div>
       <div class="quiz-options" id="quiz-options"></div>
       <div style="text-align:center;margin-top:10px">
-        <button class="btn-start" onclick="startQuiz()">🔄 New Round</button>
+        <button class="btn-start" onclick="startQuiz()"><i data-lucide="refresh-ccw"></i> New Round</button>
       </div>
     </div>
 
@@ -779,7 +790,7 @@ body {
           <div class="m-timer" id="m-timer">0:00</div>
           <div class="m-stats">Pairs: <span id="m-pairs">0</span>/<span id="m-total-pairs">8</span> · Moves: <span id="m-moves">0</span></div>
         </div>
-        <button class="btn-start" style="font-size:0.85rem;padding:10px 20px" onclick="startMatching()">🔄 New Game</button>
+        <button class="btn-start" style="font-size:0.85rem;padding:10px 20px" onclick="startMatching()"><i data-lucide="refresh-ccw"></i> New Game</button>
       </div>
       <div class="m-size-btns">
         <button class="m-size-btn active" onclick="setMatchSize(8)">8 pairs</button>
@@ -800,7 +811,7 @@ body {
       </div>
       <div class="prog-bar-wrap"><div class="prog-bar" id="sr-prog" style="width:0%"></div></div>
       <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">
-        <label style="font-size:0.78rem;color:var(--muted);font-weight:600">⏱ Thời gian</label>
+        <label style="font-size:0.78rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px"><i data-lucide="timer" style="width:14px;height:14px;stroke:var(--muted)"></i> Thời gian</label>
         <select id="sr-speed-select" onchange="setSRSpeed(+this.value)" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:6px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center">
           <option value="10">10s</option>
           <option value="9">9s</option>
@@ -821,7 +832,7 @@ body {
       <div class="sr-feedback" id="sr-feedback"></div>
       <div class="sr-options" id="sr-options"></div>
       <div style="text-align:center;margin-top:4px">
-        <button class="btn-start" onclick="startSpeed()">🔄 New Round</button>
+        <button class="btn-start" onclick="startSpeed()"><i data-lucide="refresh-ccw"></i> New Round</button>
       </div>
     </div>
 
@@ -836,7 +847,7 @@ body {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
         <!-- Số chữ -->
         <div style="display:flex;align-items:center;gap:6px;justify-content:center">
-          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">🔁 Số chữ</label>
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="repeat" style="width:12px;height:12px;stroke:var(--muted)"></i> Số chữ</label>
           <select id="lp-repeat-select" onchange="lpRepeatCount=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
             <option value="1" selected>1 chữ</option>
             <option value="2">2 chữ</option>
@@ -846,14 +857,14 @@ body {
         </div>
         <!-- Voice -->
         <div style="display:flex;align-items:center;gap:6px;justify-content:center">
-          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">🎙 Voice</label>
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="mic" style="width:12px;height:12px;stroke:var(--muted)"></i> Voice</label>
           <select id="lp-voice-select" onchange="lpSelectedVoice=this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.72rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%;overflow:hidden;text-overflow:ellipsis">
             <option value="">Default</option>
           </select>
         </div>
         <!-- Rate -->
         <div style="display:flex;align-items:center;gap:6px;justify-content:center">
-          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">⏩ Rate</label>
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="gauge" style="width:12px;height:12px;stroke:var(--muted)"></i> Rate</label>
           <select id="lp-rate-select" onchange="lpRate=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
             <option value="0.4">0.4 — Rất chậm</option>
             <option value="0.5">0.5 — Chậm</option>
@@ -865,7 +876,7 @@ body {
         </div>
         <!-- Pitch -->
         <div style="display:flex;align-items:center;gap:6px;justify-content:center">
-          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">🎵 Pitch</label>
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="music" style="width:12px;height:12px;stroke:var(--muted)"></i> Pitch</label>
           <select id="lp-pitch-select" onchange="lpPitch=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
             <option value="0.8">0.8 — Trầm</option>
             <option value="1.0">1.0 — Bình thường</option>
@@ -876,13 +887,13 @@ body {
         </div>
       </div>
       <div class="lp-card">
-        <button class="lp-speak-btn" id="lp-speak-btn" onclick="lpSpeak()">🔊</button>
+        <button class="lp-speak-btn" id="lp-speak-btn" onclick="lpSpeak()"><i data-lucide="volume-2"></i></button>
         <div class="lp-hint" id="lp-hint">Nhấn để nghe — chọn kana đúng bên dưới</div>
       </div>
       <div class="lp-feedback" id="lp-feedback"></div>
       <div class="lp-options" id="lp-options"></div>
       <div style="text-align:center;margin-top:4px">
-        <button class="btn-start" onclick="startListen()">🔄 New Round</button>
+        <button class="btn-start" onclick="startListen()"><i data-lucide="refresh-ccw"></i> New Round</button>
       </div>
     </div>
 
@@ -1029,12 +1040,12 @@ function updateHeaderSub() {
 // Switch game mode
 const ALL_GAMES = ['flashcard','quiz','typing','matching','speed','listen'];
 const GAME_META = {
-  flashcard: { icon: '🃏', name: 'Flashcard' },
-  quiz:      { icon: '🎯', name: 'Quiz' },
-  typing:    { icon: '⌨️', name: 'Typing' },
-  matching:  { icon: '🔗', name: 'Matching' },
-  speed:     { icon: '⚡', name: 'Speed Rec' },
-  listen:    { icon: '👂', name: 'Listen' },
+  flashcard: { icon: 'layers',      name: 'Flashcard' },
+  quiz:      { icon: 'list-checks', name: 'Quiz' },
+  typing:    { icon: 'keyboard',    name: 'Typing' },
+  matching:  { icon: 'link-2',      name: 'Matching' },
+  speed:     { icon: 'zap',         name: 'Speed Rec' },
+  listen:    { icon: 'ear',         name: 'Listen' },
 };
 function setGame(g) {
   currentGame = g;
@@ -1044,9 +1055,11 @@ function setGame(g) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
     b.classList.toggle('active', ALL_GAMES[i]===g);
   });
-  // Cập nhật inner header
+  // Cập nhật inner header icon
   const meta = GAME_META[g];
-  document.getElementById('gwin-icon').textContent = meta.icon;
+  const iconEl = document.getElementById('gwin-icon');
+  iconEl.setAttribute('data-lucide', meta.icon);
+  lucide.createIcons({ nodes: [iconEl] });
   document.getElementById('gwin-name').textContent = meta.name;
   // Đóng panel game sau khi chọn
   document.getElementById('panel-games').classList.remove('open');
@@ -1590,6 +1603,7 @@ startTyping();
 startMatching();
 startSpeed();
 startListen();
+lucide.createIcons();
 </script>
 </body>
 </html>
