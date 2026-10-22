@@ -1755,25 +1755,38 @@ function renderSpeed() {
     });
   }
 
-  // Countdown timer
+  // Countdown — dùng timestamp để chính xác
   srTimeLeft = srSpeed;
   timerEl.textContent = srTimeLeft;
   timerEl.className = 'sr-timer-ring';
   document.getElementById('sr-prog').style.width = Math.min(100,((srCorrect+srWrong)/(srPool.length||1))*100)+'%';
 
-  // Hide hint after srDisplayTime seconds
-  const hideAt = Math.min(srDisplayTime, srSpeed) * 1000 - 100;
-  const hideTimer = setTimeout(() => { kanaEl.classList.add('hide'); }, hideAt);
+  const startTime = Date.now();
+  const totalMs = srSpeed * 1000;
+  const displayMs = Math.min(srDisplayTime, srSpeed) * 1000;
+  let hintHidden = false;
 
   srCountdown = setInterval(() => {
-    srTimeLeft--;
-    timerEl.textContent = srTimeLeft;
-    if (srTimeLeft <= 1) timerEl.className = 'sr-timer-ring urgent';
-    if (srTimeLeft <= 0) {
-      clearTimeout(hideTimer);
+    const elapsed = Date.now() - startTime;
+    const remaining = Math.ceil((totalMs - elapsed) / 1000);
+
+    // Ẩn chữ gợi ý sau đúng srDisplayTime giây
+    if (!hintHidden && elapsed >= displayMs) {
+      hintHidden = true;
+      kanaEl.classList.add('hide');
+    }
+
+    // Cập nhật đồng hồ
+    if (remaining !== srTimeLeft) {
+      srTimeLeft = remaining;
+      timerEl.textContent = Math.max(0, srTimeLeft);
+      if (srTimeLeft <= 1) timerEl.className = 'sr-timer-ring urgent';
+    }
+
+    // Hết giờ
+    if (elapsed >= totalMs) {
       clearInterval(srCountdown);
       if (!srAnswered) {
-        // Time's up
         srAnswered = true;
         srWrong++;
         fb.textContent = '⏱ Hết giờ! — ' + correct; fb.className = 'sr-feedback fail';
@@ -1786,7 +1799,7 @@ function renderSpeed() {
         setTimeout(renderSpeed, 1000);
       }
     }
-  }, 1000);
+  }, 100); // tick 100ms để mượt và chính xác hơn
 }
 
 function srSelect(btn, chosen, correct) {
