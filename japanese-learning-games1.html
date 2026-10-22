@@ -292,9 +292,10 @@ body {
   line-height: 1;
   margin-bottom: 8px;
 }
-.t-input-wrap { display: flex; gap: 10px; margin-bottom: 14px; }
+.t-input-wrap { margin-bottom: 12px; }
 .t-input {
-  flex: 1;
+  display: block;
+  width: 100%;
   background: var(--card);
   border: 1.5px solid var(--border);
   color: var(--text);
@@ -306,18 +307,27 @@ body {
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
+  -webkit-appearance: none;
 }
 .t-input:focus { border-color: var(--accent); }
 .t-input.correct { border-color: var(--correct); background: #1A3A30; }
 .t-input.wrong { border-color: var(--wrong); background: #3A1A20; }
+.t-action-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+}
 .t-submit {
   border: none;
   background: var(--accent);
   color: #0D0F1A;
   font-weight: 700;
-  font-size: 1rem;
-  padding: 14px 22px;
-  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  padding: 11px 28px;
+  border-radius: 50px;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -466,6 +476,121 @@ body {
 }
 .toggle-arrow.up { transform: rotate(180deg); }
 
+/* ─── SPEED RECOGNITION ─── */
+#game-speed .sr-display {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.sr-kana {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 7rem;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  transition: opacity 0.1s;
+}
+.sr-kana.hide { opacity: 0; }
+.sr-timer-ring {
+  position: absolute;
+  top: 10px; right: 14px;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--accent);
+  transition: color 0.2s;
+  font-variant-numeric: tabular-nums;
+  min-width: 36px;
+  text-align: right;
+}
+.sr-timer-ring.urgent { color: var(--wrong); }
+.sr-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.sr-score { display: flex; justify-content: center; gap: 24px; margin-bottom: 14px; }
+.sr-feedback { text-align: center; font-size: 0.9rem; min-height: 22px; margin-bottom: 10px; font-weight: 600; }
+.sr-feedback.ok { color: var(--correct); }
+.sr-feedback.fail { color: var(--wrong); }
+.sr-speed-btns { display: flex; gap: 8px; justify-content: center; margin-bottom: 14px; }
+.sr-speed-btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  padding: 6px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sr-speed-btn.active { border-color: var(--accent2); color: var(--accent2); background: var(--card); }
+
+/* ─── LISTEN & PICK ─── */
+#game-listen .lp-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 24px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.lp-speak-btn {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+.lp-speak-btn:hover { background: var(--card); transform: scale(1.05); }
+.lp-speak-btn.speaking { background: var(--accent); color: #0D0F1A; animation: pulse 0.6s ease-in-out infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+.lp-hint { color: var(--muted); font-size: 0.82rem; }
+.lp-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.lp-opt {
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--accent);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp-opt:hover:not(:disabled) { background: var(--card-hover); border-color: var(--accent); transform: scale(1.04); }
+.lp-opt.correct { background: #1A3A30; border-color: var(--correct); color: var(--correct); }
+.lp-opt.wrong { background: #3A1A20; border-color: var(--wrong); color: var(--wrong); }
+.lp-opt:disabled { cursor: default; transform: none; }
+.lp-score { display: flex; justify-content: center; gap: 24px; margin-bottom: 14px; }
+.lp-feedback { text-align: center; font-size: 0.9rem; min-height: 22px; margin-bottom: 10px; font-weight: 600; }
+.lp-feedback.ok { color: var(--correct); }
+.lp-feedback.fail { color: var(--wrong); }
+
 /* responsive */
 @media(max-width:500px){
   .title-jp { font-size: 1.9rem; }
@@ -531,6 +656,8 @@ body {
     <button class="tab-btn" onclick="setGame('quiz')"><span>🎯</span> Quiz</button>
     <button class="tab-btn" onclick="setGame('typing')"><span>⌨️</span> Typing</button>
     <button class="tab-btn" onclick="setGame('matching')"><span>🔗</span> Matching</button>
+    <button class="tab-btn" onclick="setGame('speed')"><span>⚡</span> Speed Rec</button>
+    <button class="tab-btn" onclick="setGame('listen')"><span>👂</span> Listen</button>
   </div>
 
   <!-- Game window -->
@@ -592,10 +719,10 @@ body {
       <div class="t-feedback" id="t-feedback"></div>
       <div class="t-input-wrap">
         <input class="t-input" id="t-input" type="text" placeholder="type romaji…" autocomplete="off" autocapitalize="off" spellcheck="false" onkeydown="handleTypingKey(event)">
-        <button class="t-submit" onclick="checkTyping()">✓</button>
       </div>
-      <div style="text-align:center">
-        <button class="btn-start" style="font-size:0.85rem;padding:10px 22px;background:var(--card);color:var(--muted);border:1px solid var(--border)" onclick="skipTyping()">Skip →</button>
+      <div class="t-action-row">
+        <button class="t-submit" onclick="checkTyping()">OK</button>
+        <button class="btn-start" style="position:absolute;right:0;font-size:0.85rem;padding:9px 18px;background:transparent;color:var(--muted);border:1px solid var(--border)" onclick="skipTyping()">Skip →</button>
       </div>
     </div>
 
@@ -615,6 +742,101 @@ body {
       <div class="m-grid" id="m-grid"></div>
       <div style="text-align:center;padding:8px 0">
         <div class="m-stats" id="m-result-msg" style="font-size:0.95rem;color:var(--accent3)"></div>
+      </div>
+    </div>
+
+    <!-- ══════ SPEED RECOGNITION ══════ -->
+    <div id="game-speed" style="display:none">
+      <div class="sr-score">
+        <div class="score-item score-correct"><div class="score-num" id="sr-correct">0</div><div class="score-label">Correct</div></div>
+        <div class="score-item"><div class="score-num" style="color:var(--muted)" id="sr-total">0</div><div class="score-label">Total</div></div>
+        <div class="score-item score-wrong"><div class="score-num" id="sr-wrong">0</div><div class="score-label">Wrong</div></div>
+      </div>
+      <div class="prog-bar-wrap"><div class="prog-bar" id="sr-prog" style="width:0%"></div></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">
+        <label style="font-size:0.78rem;color:var(--muted);font-weight:600">⏱ Thời gian</label>
+        <select id="sr-speed-select" onchange="setSRSpeed(+this.value)" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:6px 16px;font-size:0.82rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center">
+          <option value="10">10s</option>
+          <option value="9">9s</option>
+          <option value="8">8s</option>
+          <option value="7">7s</option>
+          <option value="6">6s</option>
+          <option value="5">5s</option>
+          <option value="4">4s</option>
+          <option value="3" selected>3s</option>
+          <option value="2">2s</option>
+          <option value="1">1s</option>
+        </select>
+      </div>
+      <div class="sr-display">
+        <div class="sr-kana" id="sr-kana">?</div>
+        <div class="sr-timer-ring" id="sr-timer">3</div>
+      </div>
+      <div class="sr-feedback" id="sr-feedback"></div>
+      <div class="sr-options" id="sr-options"></div>
+      <div style="text-align:center;margin-top:4px">
+        <button class="btn-start" onclick="startSpeed()">🔄 New Round</button>
+      </div>
+    </div>
+
+    <!-- ══════ LISTEN & PICK ══════ -->
+    <div id="game-listen" style="display:none">
+      <div class="lp-score">
+        <div class="score-item score-correct"><div class="score-num" id="lp-correct">0</div><div class="score-label">Correct</div></div>
+        <div class="score-item"><div class="score-num" style="color:var(--muted)" id="lp-total">0</div><div class="score-label">Total</div></div>
+        <div class="score-item score-wrong"><div class="score-num" id="lp-wrong">0</div><div class="score-label">Wrong</div></div>
+      </div>
+      <div class="prog-bar-wrap"><div class="prog-bar" id="lp-prog" style="width:0%"></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <!-- Số chữ -->
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">🔁 Số chữ</label>
+          <select id="lp-repeat-select" onchange="lpRepeatCount=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
+            <option value="1" selected>1 chữ</option>
+            <option value="2">2 chữ</option>
+            <option value="3">3 chữ</option>
+            <option value="4">4 chữ</option>
+          </select>
+        </div>
+        <!-- Voice -->
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">🎙 Voice</label>
+          <select id="lp-voice-select" onchange="lpSelectedVoice=this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.72rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%;overflow:hidden;text-overflow:ellipsis">
+            <option value="">Default</option>
+          </select>
+        </div>
+        <!-- Rate -->
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">⏩ Rate</label>
+          <select id="lp-rate-select" onchange="lpRate=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
+            <option value="0.4">0.4 — Rất chậm</option>
+            <option value="0.5">0.5 — Chậm</option>
+            <option value="0.6" selected>0.6 — Vừa</option>
+            <option value="0.7">0.7 — Hơi nhanh</option>
+            <option value="0.8">0.8 — Nhanh</option>
+            <option value="1.0">1.0 — Bình thường</option>
+          </select>
+        </div>
+        <!-- Pitch -->
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap">🎵 Pitch</label>
+          <select id="lp-pitch-select" onchange="lpPitch=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
+            <option value="0.8">0.8 — Trầm</option>
+            <option value="1.0">1.0 — Bình thường</option>
+            <option value="1.1" selected>1.1 — Hơi cao</option>
+            <option value="1.2">1.2 — Cao</option>
+            <option value="1.4">1.4 — Rất cao</option>
+          </select>
+        </div>
+      </div>
+      <div class="lp-card">
+        <button class="lp-speak-btn" id="lp-speak-btn" onclick="lpSpeak()">🔊</button>
+        <div class="lp-hint" id="lp-hint">Nhấn để nghe — chọn kana đúng bên dưới</div>
+      </div>
+      <div class="lp-feedback" id="lp-feedback"></div>
+      <div class="lp-options" id="lp-options"></div>
+      <div style="text-align:center;margin-top:4px">
+        <button class="btn-start" onclick="startListen()">🔄 New Round</button>
       </div>
     </div>
 
@@ -732,13 +954,14 @@ function toggleCat(c) {
 }
 
 // Switch game mode
+const ALL_GAMES = ['flashcard','quiz','typing','matching','speed','listen'];
 function setGame(g) {
   currentGame = g;
-  ['flashcard','quiz','typing','matching'].forEach(id => {
+  ALL_GAMES.forEach(id => {
     document.getElementById('game-'+id).style.display = id===g ? 'block' : 'none';
   });
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['flashcard','quiz','typing','matching'][i]===g);
+    b.classList.toggle('active', ALL_GAMES[i]===g);
   });
   resetCurrentGame();
 }
@@ -748,6 +971,8 @@ function resetCurrentGame() {
   if (currentGame==='quiz') startQuiz();
   if (currentGame==='typing') startTyping();
   if (currentGame==='matching') startMatching();
+  if (currentGame==='speed') startSpeed();
+  if (currentGame==='listen') startListen();
 }
 
 // ═══════════════════════════════════════════
@@ -1015,6 +1240,247 @@ function updateMatchStats() {
 }
 
 // ═══════════════════════════════════════════
+// SPEED RECOGNITION
+// ═══════════════════════════════════════════
+let srPool=[], srIndex=0, srCorrect=0, srWrong=0, srSpeed=3, srCountdown=null, srAnswered=false, srTimeLeft=0;
+
+function setSRSpeed(s) {
+  srSpeed = s;
+  startSpeed();
+}
+
+function startSpeed() {
+  clearInterval(srCountdown);
+  srPool = shuffle(getPool());
+  srIndex=0; srCorrect=0; srWrong=0; srAnswered=false;
+  updateSRScore(); renderSpeed();
+}
+
+function renderSpeed() {
+  if (srIndex >= srPool.length) { srPool = shuffle(getPool()); srIndex=0; }
+  clearInterval(srCountdown);
+  srAnswered = false;
+
+  const pool = getPool();
+  const [kana, correct] = srPool[srIndex];
+  const kanaEl = document.getElementById('sr-kana');
+  const timerEl = document.getElementById('sr-timer');
+  const fb = document.getElementById('sr-feedback');
+
+  kanaEl.className = 'sr-kana';
+  kanaEl.textContent = kana;
+  fb.textContent = ''; fb.className = 'sr-feedback';
+
+  // Build options
+  let wrongs = pool.filter(x => x[1] !== correct);
+  wrongs = shuffle(wrongs).slice(0,3).map(x=>x[1]);
+  const opts = shuffle([correct, ...wrongs]);
+  const wrap = document.getElementById('sr-options');
+  wrap.innerHTML = '';
+  opts.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn'; b.textContent = opt;
+    b.onclick = () => srSelect(b, opt, correct);
+    wrap.appendChild(b);
+  });
+
+  // Countdown timer
+  srTimeLeft = srSpeed;
+  timerEl.textContent = srTimeLeft;
+  timerEl.className = 'sr-timer-ring';
+  document.getElementById('sr-prog').style.width = Math.min(100,((srCorrect+srWrong)/(srPool.length||1))*100)+'%';
+
+  // Hide kana after srSpeed seconds
+  const hideAt = srSpeed * 1000 - 200;
+  const hideTimer = setTimeout(() => { kanaEl.classList.add('hide'); }, hideAt);
+
+  srCountdown = setInterval(() => {
+    srTimeLeft--;
+    timerEl.textContent = srTimeLeft;
+    if (srTimeLeft <= 1) timerEl.className = 'sr-timer-ring urgent';
+    if (srTimeLeft <= 0) {
+      clearTimeout(hideTimer);
+      clearInterval(srCountdown);
+      if (!srAnswered) {
+        // Time's up
+        srAnswered = true;
+        srWrong++;
+        fb.textContent = '⏱ Time up! — ' + correct; fb.className = 'sr-feedback fail';
+        document.querySelectorAll('#sr-options .opt-btn').forEach(b => {
+          if (b.textContent===correct) b.classList.add('correct');
+          b.disabled = true;
+        });
+        updateSRScore();
+        srIndex++;
+        setTimeout(renderSpeed, 1000);
+      }
+    }
+  }, 1000);
+}
+
+function srSelect(btn, chosen, correct) {
+  if (srAnswered) return;
+  srAnswered = true;
+  clearInterval(srCountdown);
+  document.getElementById('sr-kana').classList.remove('hide');
+  const fb = document.getElementById('sr-feedback');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ Correct!'; fb.className = 'sr-feedback ok'; srCorrect++;
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = '✗ Wrong — ' + correct; fb.className = 'sr-feedback fail'; srWrong++;
+    document.querySelectorAll('#sr-options .opt-btn').forEach(b => { if(b.textContent===correct) b.classList.add('correct'); });
+  }
+  document.querySelectorAll('#sr-options .opt-btn').forEach(b => b.disabled=true);
+  updateSRScore(); srIndex++;
+  setTimeout(renderSpeed, 900);
+}
+
+function updateSRScore() {
+  document.getElementById('sr-correct').textContent = srCorrect;
+  document.getElementById('sr-wrong').textContent = srWrong;
+  document.getElementById('sr-total').textContent = srCorrect+srWrong;
+}
+
+// ═══════════════════════════════════════════
+// LISTEN & PICK
+// ═══════════════════════════════════════════
+let lpPool=[], lpIndex=0, lpCorrect=0, lpWrong=0, lpAnswered=false;
+let lpCurrentKanas=[], lpCurrentRom='', lpRepeatCount=1;
+let lpRate=0.6, lpPitch=1.1, lpSelectedVoice='';
+
+function lpLoadVoices() {
+  const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('ja'));
+  const sel = document.getElementById('lp-voice-select');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">Default</option>';
+  voices.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v.name;
+    opt.textContent = v.name.replace(/Microsoft |Google |Apple /, '').substring(0, 20);
+    sel.appendChild(opt);
+  });
+}
+if (window.speechSynthesis) {
+  speechSynthesis.onvoiceschanged = lpLoadVoices;
+  lpLoadVoices();
+}
+
+function startListen() {
+  lpPool = shuffle(getPool());
+  lpIndex=0; lpCorrect=0; lpWrong=0; lpAnswered=false;
+  updateLPScore(); renderListen();
+}
+
+function renderListen() {
+  if (lpIndex >= lpPool.length) { lpPool = shuffle(getPool()); lpIndex=0; }
+  lpAnswered = false;
+  const pool = getPool();
+  // Câu hỏi: chữ đầu tiên là đáp án cần tìm
+  const [kana, correct] = lpPool[lpIndex];
+  lpCurrentRom = correct;
+
+  // Chọn thêm (lpRepeatCount-1) chữ ngẫu nhiên để đọc kèm
+  const extras = shuffle(pool.filter(x => x[1] !== correct)).slice(0, lpRepeatCount - 1);
+  // Xáo vị trí chữ đáp án trong chuỗi đọc
+  const readList = shuffle([[kana, correct], ...extras]);
+  lpCurrentKanas = readList.map(x => x[0]);
+
+  document.getElementById('lp-feedback').textContent = '';
+  document.getElementById('lp-feedback').className = 'lp-feedback';
+  document.getElementById('lp-speak-btn').className = 'lp-speak-btn';
+  document.getElementById('lp-prog').style.width = Math.min(100,((lpCorrect+lpWrong)/(lpPool.length||1))*100)+'%';
+
+  // Hint: nếu đọc nhiều chữ thì cho biết đáp án là chữ thứ mấy
+  const answerPos = readList.findIndex(x => x[1] === correct) + 1;
+  const hintEl = document.getElementById('lp-hint');
+  if (lpRepeatCount === 1) {
+    hintEl.textContent = 'Nhấn để nghe — chọn kana đúng bên dưới';
+  } else {
+    hintEl.textContent = `Nghe ${lpRepeatCount} chữ — chọn chữ thứ ${answerPos}`;
+  }
+
+  // Build kana options
+  let wrongs = pool.filter(x => x[1] !== correct);
+  wrongs = shuffle(wrongs).slice(0, 7);
+  const opts = shuffle([[kana, correct], ...wrongs.map(x=>[x[0],x[1]])]).slice(0, 8);
+
+  const wrap = document.getElementById('lp-options');
+  wrap.innerHTML = '';
+  opts.forEach(([k, rom]) => {
+    const b = document.createElement('button');
+    b.className = 'lp-opt'; b.textContent = k;
+    b.onclick = () => lpSelect(b, rom, correct, kana);
+    wrap.appendChild(b);
+  });
+
+  // Auto-speak sau delay ngắn
+  setTimeout(lpSpeak, 400);
+}
+
+function lpSpeak() {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const btn = document.getElementById('lp-speak-btn');
+  btn.className = 'lp-speak-btn speaking';
+
+  // Đọc từng chữ cách nhau 1000ms
+  let i = 0;
+  const allVoices = speechSynthesis.getVoices();
+  const chosenVoice = lpSelectedVoice
+    ? allVoices.find(v => v.name === lpSelectedVoice)
+    : allVoices.find(v => v.lang.startsWith('ja')) || null;
+
+  function speakNext() {
+    if (i >= lpCurrentKanas.length) {
+      btn.className = 'lp-speak-btn';
+      return;
+    }
+    const utter = new SpeechSynthesisUtterance(lpCurrentKanas[i]);
+    utter.lang = 'ja-JP';
+    utter.rate = lpRate;
+    utter.pitch = lpPitch;
+    if (chosenVoice) utter.voice = chosenVoice;
+    utter.onend = () => {
+      i++;
+      if (i < lpCurrentKanas.length) {
+        setTimeout(speakNext, 800);
+      } else {
+        btn.className = 'lp-speak-btn';
+      }
+    };
+    speechSynthesis.speak(utter);
+  }
+  speakNext();
+}
+
+function lpSelect(btn, chosen, correct, correctKana) {
+  if (lpAnswered) return;
+  lpAnswered = true;
+  const fb = document.getElementById('lp-feedback');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ Correct!'; fb.className = 'lp-feedback ok'; lpCorrect++;
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = '✗ Wrong — ' + correct; fb.className = 'lp-feedback fail'; lpWrong++;
+    document.querySelectorAll('#lp-options .lp-opt').forEach(b => {
+      if (b.textContent === correctKana) b.classList.add('correct');
+    });
+  }
+  document.querySelectorAll('#lp-options .lp-opt').forEach(b => b.disabled=true);
+  updateLPScore(); lpIndex++;
+  setTimeout(renderListen, 1100);
+}
+
+function updateLPScore() {
+  document.getElementById('lp-correct').textContent = lpCorrect;
+  document.getElementById('lp-wrong').textContent = lpWrong;
+  document.getElementById('lp-total').textContent = lpCorrect+lpWrong;
+}
+
+// ═══════════════════════════════════════════
 // SETUP TOGGLE
 // ═══════════════════════════════════════════
 let setupVisible = true;
@@ -1035,6 +1501,8 @@ initFlashcard();
 startQuiz();
 startTyping();
 startMatching();
+startSpeed();
+startListen();
 </script>
 </body>
 </html>
