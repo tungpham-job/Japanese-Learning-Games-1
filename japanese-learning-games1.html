@@ -195,9 +195,25 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px 20px;
+  overflow: hidden;
   min-height: 420px;
 }
+.game-window-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 9px 18px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.game-window-header .game-icon { font-size: 0.9rem; }
+.game-window-header .game-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.3px;
+}
+.game-window-body { padding: 24px 20px; }
 
 /* ─── FLASHCARD ─── */
 #game-flashcard .card-scene {
@@ -659,6 +675,14 @@ body {
   <!-- Game window -->
   <div class="game-window">
 
+    <!-- Inner game title bar -->
+    <div class="game-window-header">
+      <span class="game-icon" id="gwin-icon">🃏</span>
+      <span class="game-name" id="gwin-name">Flashcard</span>
+    </div>
+
+    <div class="game-window-body">
+
     <!-- ══════ FLASHCARD ══════ -->
     <div id="game-flashcard">
       <div class="card-scene" onclick="flipCard()">
@@ -836,6 +860,7 @@ body {
       </div>
     </div>
 
+    </div><!-- /game-window-body -->
   </div><!-- /game-window -->
 </div><!-- /game-zone -->
 
@@ -977,6 +1002,14 @@ function updateHeaderSub() {
 
 // Switch game mode
 const ALL_GAMES = ['flashcard','quiz','typing','matching','speed','listen'];
+const GAME_META = {
+  flashcard: { icon: '🃏', name: 'Flashcard' },
+  quiz:      { icon: '🎯', name: 'Quiz' },
+  typing:    { icon: '⌨️', name: 'Typing' },
+  matching:  { icon: '🔗', name: 'Matching' },
+  speed:     { icon: '⚡', name: 'Speed Rec' },
+  listen:    { icon: '👂', name: 'Listen' },
+};
 function setGame(g) {
   currentGame = g;
   ALL_GAMES.forEach(id => {
@@ -985,6 +1018,10 @@ function setGame(g) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
     b.classList.toggle('active', ALL_GAMES[i]===g);
   });
+  // Cập nhật inner header
+  const meta = GAME_META[g];
+  document.getElementById('gwin-icon').textContent = meta.icon;
+  document.getElementById('gwin-name').textContent = meta.name;
   // Đóng panel game sau khi chọn
   document.getElementById('panel-games').classList.remove('open');
   document.getElementById('btn-panel-games').classList.remove('active');
