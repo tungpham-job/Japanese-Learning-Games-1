@@ -315,8 +315,8 @@ body {
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--text);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 700;
   padding: 18px 10px;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -447,7 +447,7 @@ body {
 .m-tile.matched.type-kana .tile-kana { color: var(--correct); }
 /* romaji tile: big romaji text */
 .m-tile.type-rom .tile-rom {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   color: var(--text);
@@ -844,31 +844,43 @@ body {
         <div class="score-item score-wrong"><div class="score-num" id="lp-wrong">0</div><div class="score-label">Wrong</div></div>
       </div>
       <div class="prog-bar-wrap"><div class="prog-bar" id="lp-prog" style="width:0%"></div></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px">
         <!-- Số chữ -->
         <div style="display:flex;align-items:center;gap:6px;justify-content:center">
           <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="repeat" style="width:12px;height:12px;stroke:var(--muted)"></i> Số chữ</label>
-          <select id="lp-repeat-select" onchange="lpRepeatCount=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
+          <select id="lp-repeat-select" onchange="lpRepeatCount=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 8px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
             <option value="1" selected>1 chữ</option>
             <option value="2">2 chữ</option>
             <option value="3">3 chữ</option>
             <option value="4">4 chữ</option>
           </select>
         </div>
+        <!-- Time (khoảng cách giữa các chữ) -->
+        <div style="display:flex;align-items:center;gap:6px;justify-content:center">
+          <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="timer" style="width:12px;height:12px;stroke:var(--muted)"></i> Time</label>
+          <select id="lp-gap-select" onchange="lpGap=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 8px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
+            <option value="0.5">0.5s</option>
+            <option value="1.0" selected>1.0s</option>
+            <option value="1.5">1.5s</option>
+            <option value="2.0">2.0s</option>
+          </select>
+        </div>
         <!-- Voice -->
         <div style="display:flex;align-items:center;gap:6px;justify-content:center">
           <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="mic" style="width:12px;height:12px;stroke:var(--muted)"></i> Voice</label>
-          <select id="lp-voice-select" onchange="lpSelectedVoice=this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.72rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%;overflow:hidden;text-overflow:ellipsis">
+          <select id="lp-voice-select" onchange="lpSelectedVoice=this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 8px;font-size:0.72rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%;overflow:hidden;text-overflow:ellipsis">
             <option value="">Default</option>
           </select>
         </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
         <!-- Rate -->
         <div style="display:flex;align-items:center;gap:6px;justify-content:center">
           <label style="font-size:0.72rem;color:var(--muted);font-weight:600;white-space:nowrap;display:flex;align-items:center;gap:3px"><i data-lucide="gauge" style="width:12px;height:12px;stroke:var(--muted)"></i> Rate</label>
           <select id="lp-rate-select" onchange="lpRate=+this.value" style="background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:50px;padding:5px 12px;font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;text-align:center;width:100%">
-            <option value="0.4">0.4 — Rất chậm</option>
-            <option value="0.5">0.5 — Chậm</option>
-            <option value="0.6" selected>0.6 — Vừa</option>
+            <option value="0.1">0.1 — Rất chậm</option>
+            <option value="0.3">0.3 — Chậm</option>
+            <option value="0.5" selected>0.5 — Vừa</option>
             <option value="0.7">0.7 — Hơi nhanh</option>
             <option value="0.8">0.8 — Nhanh</option>
             <option value="1.0">1.0 — Bình thường</option>
@@ -1462,7 +1474,7 @@ function updateSRScore() {
 // ═══════════════════════════════════════════
 let lpPool=[], lpIndex=0, lpCorrect=0, lpWrong=0, lpAnswered=false;
 let lpCurrentKanas=[], lpCurrentRom='', lpRepeatCount=1;
-let lpRate=0.6, lpPitch=1.1, lpSelectedVoice='';
+let lpRate=0.5, lpPitch=1.1, lpSelectedVoice='', lpGap=1.0;
 
 function lpLoadVoices() {
   const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('ja'));
@@ -1487,49 +1499,51 @@ function startListen() {
   updateLPScore(); renderListen();
 }
 
+// readList theo thu tu da doc, lpPickStep: so card da chon dung
+let lpReadList=[], lpPickStep=0, lpPickExpected=[];
+
 function renderListen() {
   if (lpIndex >= lpPool.length) { lpPool = shuffle(getPool()); lpIndex=0; }
   lpAnswered = false;
+  lpPickStep = 0;
   const pool = getPool();
-  // Câu hỏi: chữ đầu tiên là đáp án cần tìm
-  const [kana, correct] = lpPool[lpIndex];
-  lpCurrentRom = correct;
 
-  // Chọn thêm (lpRepeatCount-1) chữ ngẫu nhiên để đọc kèm
-  const extras = shuffle(pool.filter(x => x[1] !== correct)).slice(0, lpRepeatCount - 1);
-  // Xáo vị trí chữ đáp án trong chuỗi đọc
-  const readList = shuffle([[kana, correct], ...extras]);
-  lpCurrentKanas = readList.map(x => x[0]);
+  // Lay lpRepeatCount chu tu pool
+  const mainPair = lpPool[lpIndex];
+  const extras = shuffle(pool.filter(x => x[1] !== mainPair[1])).slice(0, lpRepeatCount - 1);
+  lpReadList = shuffle([mainPair, ...extras]);
+  lpCurrentKanas = lpReadList.map(x => x[0]);
+  lpPickExpected = lpReadList.map(x => x[1]);
 
   document.getElementById('lp-feedback').textContent = '';
   document.getElementById('lp-feedback').className = 'lp-feedback';
   document.getElementById('lp-speak-btn').className = 'lp-speak-btn';
   document.getElementById('lp-prog').style.width = Math.min(100,((lpCorrect+lpWrong)/(lpPool.length||1))*100)+'%';
 
-  // Hint: nếu đọc nhiều chữ thì cho biết đáp án là chữ thứ mấy
-  const answerPos = readList.findIndex(x => x[1] === correct) + 1;
   const hintEl = document.getElementById('lp-hint');
   if (lpRepeatCount === 1) {
-    hintEl.textContent = 'Nhấn để nghe — chọn kana đúng bên dưới';
+    hintEl.textContent = 'Nhan de nghe — chon kana dung ben duoi';
   } else {
-    hintEl.textContent = `Nghe ${lpRepeatCount} chữ — chọn chữ thứ ${answerPos}`;
+    hintEl.textContent = 'Nghe ' + lpRepeatCount + ' chu — chon lan luot theo thu tu da nghe';
   }
 
-  // Build kana options
-  let wrongs = pool.filter(x => x[1] !== correct);
-  wrongs = shuffle(wrongs).slice(0, 7);
-  const opts = shuffle([[kana, correct], ...wrongs.map(x=>[x[0],x[1]])]).slice(0, 8);
+  // Build options: kana trong readList + nhieu
+  const readRoms = new Set(lpReadList.map(x => x[1]));
+  let wrongs = pool.filter(x => !readRoms.has(x[1]));
+  wrongs = shuffle(wrongs).slice(0, 8 - lpRepeatCount);
+  const opts = shuffle([...lpReadList.map(x=>[x[0],x[1]]), ...wrongs.map(x=>[x[0],x[1]])]).slice(0, 8);
 
   const wrap = document.getElementById('lp-options');
   wrap.innerHTML = '';
   opts.forEach(([k, rom]) => {
     const b = document.createElement('button');
-    b.className = 'lp-opt'; b.textContent = k;
-    b.onclick = () => lpSelect(b, rom, correct, kana);
+    b.className = 'lp-opt';
+    b.textContent = k;
+    b.dataset.rom = rom;
+    b.onclick = () => lpSelect(b, rom);
     wrap.appendChild(b);
   });
 
-  // Auto-speak sau delay ngắn
   setTimeout(lpSpeak, 400);
 }
 
@@ -1538,8 +1552,6 @@ function lpSpeak() {
   speechSynthesis.cancel();
   const btn = document.getElementById('lp-speak-btn');
   btn.className = 'lp-speak-btn speaking';
-
-  // Đọc từng chữ cách nhau 1000ms
   let i = 0;
   const allVoices = speechSynthesis.getVoices();
   const chosenVoice = lpSelectedVoice
@@ -1547,45 +1559,52 @@ function lpSpeak() {
     : allVoices.find(v => v.lang.startsWith('ja')) || null;
 
   function speakNext() {
-    if (i >= lpCurrentKanas.length) {
-      btn.className = 'lp-speak-btn';
-      return;
-    }
+    if (i >= lpCurrentKanas.length) { btn.className = 'lp-speak-btn'; return; }
     const utter = new SpeechSynthesisUtterance(lpCurrentKanas[i]);
-    utter.lang = 'ja-JP';
-    utter.rate = lpRate;
-    utter.pitch = lpPitch;
+    utter.lang = 'ja-JP'; utter.rate = lpRate; utter.pitch = lpPitch;
     if (chosenVoice) utter.voice = chosenVoice;
-    utter.onend = () => {
-      i++;
-      if (i < lpCurrentKanas.length) {
-        setTimeout(speakNext, 800);
-      } else {
-        btn.className = 'lp-speak-btn';
-      }
-    };
+    utter.onend = () => { i++; if (i < lpCurrentKanas.length) setTimeout(speakNext, lpGap * 1000); else btn.className = 'lp-speak-btn'; };
     speechSynthesis.speak(utter);
   }
   speakNext();
 }
 
-function lpSelect(btn, chosen, correct, correctKana) {
+function lpSelect(btn, chosen) {
   if (lpAnswered) return;
-  lpAnswered = true;
   const fb = document.getElementById('lp-feedback');
-  if (chosen === correct) {
+  const expected = lpPickExpected[lpPickStep];
+
+  if (chosen === expected) {
     btn.classList.add('correct');
-    fb.textContent = '✓ Correct!'; fb.className = 'lp-feedback ok'; lpCorrect++;
+    btn.disabled = true;
+    lpPickStep++;
+
+    if (lpPickStep < lpRepeatCount) {
+      fb.textContent = '✓ ' + lpPickStep + '/' + lpRepeatCount + ' — tiep tuc chon';
+      fb.className = 'lp-feedback ok';
+    } else {
+      lpAnswered = true;
+      fb.textContent = '✓ Correct!'; fb.className = 'lp-feedback ok';
+      lpCorrect++;
+      document.querySelectorAll('#lp-options .lp-opt').forEach(b => b.disabled = true);
+      updateLPScore(); lpIndex++;
+      setTimeout(renderListen, 1000);
+    }
   } else {
+    lpAnswered = true;
     btn.classList.add('wrong');
-    fb.textContent = '✗ Wrong — ' + correct; fb.className = 'lp-feedback fail'; lpWrong++;
+    const orderStr = lpReadList.map(x => x[0]).join(' → ');
+    fb.textContent = '✗ Sai — thu tu dung: ' + orderStr;
+    fb.className = 'lp-feedback fail';
+    lpWrong++;
+    const remainRoms = new Set(lpPickExpected.slice(lpPickStep));
     document.querySelectorAll('#lp-options .lp-opt').forEach(b => {
-      if (b.textContent === correctKana) b.classList.add('correct');
+      if (remainRoms.has(b.dataset.rom) && !b.classList.contains('correct')) b.classList.add('correct');
+      b.disabled = true;
     });
+    updateLPScore(); lpIndex++;
+    setTimeout(renderListen, 1600);
   }
-  document.querySelectorAll('#lp-options .lp-opt').forEach(b => b.disabled=true);
-  updateLPScore(); lpIndex++;
-  setTimeout(renderListen, 1100);
 }
 
 function updateLPScore() {
