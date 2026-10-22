@@ -601,15 +601,41 @@ body {
 .lp-feedback.fail { color: var(--wrong); }
 
 /* responsive */
-@media(max-width:500px){
-  .title-jp { font-size: 1.9rem; }
+/* Typing — ẩn score/streak khi focus input */
+#game-typing.keyboard-open .t-score,
+#game-typing.keyboard-open .t-streak,
+#game-typing.keyboard-open .prog-bar-wrap {
+  display: none;
+}
+
+@media(max-width:600px){
   .kana-big,.q-kana,.t-kana { font-size: 4.5rem; }
   .m-tile.type-kana .tile-kana { font-size: 1.7rem; }
   .m-tile.type-rom .tile-rom { font-size: 0.9rem; }
   .quiz-options { gap: 8px; }
   .opt-btn { padding: 14px 6px; font-size: 0.95rem; }
-  .game-window { padding: 20px 14px; }
-  .setup-zone { padding: 24px 14px 22px; }
+
+  /* Game zone: bỏ padding để game-window chiếm full width */
+  .game-zone { padding: 10px 10px 0; gap: 0; }
+
+  /* Panel overlay phủ lên trên thay vì đẩy game-window hẹp lại */
+  .side-panel {
+    position: absolute;
+    z-index: 100;
+    left: 10px;
+    top: 0;
+    width: 0;
+    opacity: 0;
+  }
+  .side-panel.open { width: 148px; opacity: 1; }
+
+  /* game-zone cần position relative để panel absolute hoạt động */
+  .game-zone { position: relative; }
+
+  /* game-window chiếm toàn bộ width */
+  .game-window { width: 100%; }
+
+  .game-window-body { padding: 18px 14px; }
 }
 </style>
 </head>
@@ -1166,6 +1192,18 @@ function renderTyping() {
 }
 
 function handleTypingKey(e) { if (e.key==='Enter') checkTyping(); }
+
+// Ẩn score/streak khi bàn phím ảo hiện lên (mobile)
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('t-input');
+  if (!inp) return;
+  inp.addEventListener('focus', () => {
+    document.getElementById('game-typing').classList.add('keyboard-open');
+  });
+  inp.addEventListener('blur', () => {
+    document.getElementById('game-typing').classList.remove('keyboard-open');
+  });
+});
 
 function checkTyping() {
   const inp = document.getElementById('t-input');
