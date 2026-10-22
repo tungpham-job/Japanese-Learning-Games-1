@@ -125,43 +125,96 @@ body {
 .game-zone {
   max-width: 720px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 16px 16px 0;
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+  position: relative;
 }
 
-/* Game tabs */
-.game-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin: 24px 0 0;
-  flex-wrap: wrap;
-}
-.tab-btn {
+/* Sidebar toggle button */
+.sidebar-toggle {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--border);
   background: var(--surface);
+  color: var(--muted);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+  margin-top: 4px;
+  z-index: 10;
+}
+.sidebar-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Sidebar */
+.game-sidebar {
+  flex-shrink: 0;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+  opacity: 0;
+}
+.game-sidebar.open {
+  width: 160px;
+  opacity: 1;
+  margin-right: 10px;
+  margin-left: 8px;
+}
+.sidebar-inner {
+  width: 160px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sidebar-label {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 4px 8px 6px;
+}
+.tab-btn {
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--muted);
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
-  padding: 9px 20px;
-  border-radius: 50px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.18s;
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
 }
-.tab-btn:hover { border-color: var(--accent); color: var(--text); }
-.tab-btn.active { background: var(--card); border-color: var(--accent); color: var(--accent); }
+.tab-btn:hover { background: var(--card); color: var(--text); }
+.tab-btn.active { background: var(--card); border-color: var(--border); color: var(--accent); }
 
 /* Game window */
 .game-window {
-  margin-top: 22px;
+  flex: 1;
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 28px 24px;
   min-height: 420px;
+  margin-left: 8px;
 }
 
 /* ─── FLASHCARD ─── */
@@ -650,14 +703,20 @@ body {
 ══════════════════════════════════════ -->
 <div class="game-zone">
 
-  <!-- Game tabs -->
-  <div class="game-tabs">
-    <button class="tab-btn active" onclick="setGame('flashcard')"><span>🃏</span> Flashcard</button>
-    <button class="tab-btn" onclick="setGame('quiz')"><span>🎯</span> Quiz</button>
-    <button class="tab-btn" onclick="setGame('typing')"><span>⌨️</span> Typing</button>
-    <button class="tab-btn" onclick="setGame('matching')"><span>🔗</span> Matching</button>
-    <button class="tab-btn" onclick="setGame('speed')"><span>⚡</span> Speed Rec</button>
-    <button class="tab-btn" onclick="setGame('listen')"><span>👂</span> Listen</button>
+  <!-- Sidebar toggle -->
+  <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleSidebar()" title="Chọn game">☰</button>
+
+  <!-- Sidebar -->
+  <div class="game-sidebar" id="game-sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-label">Chọn game</div>
+      <button class="tab-btn active" onclick="setGame('flashcard')"><span>🃏</span> Flashcard</button>
+      <button class="tab-btn" onclick="setGame('quiz')"><span>🎯</span> Quiz</button>
+      <button class="tab-btn" onclick="setGame('typing')"><span>⌨️</span> Typing</button>
+      <button class="tab-btn" onclick="setGame('matching')"><span>🔗</span> Matching</button>
+      <button class="tab-btn" onclick="setGame('speed')"><span>⚡</span> Speed Rec</button>
+      <button class="tab-btn" onclick="setGame('listen')"><span>👂</span> Listen</button>
+    </div>
   </div>
 
   <!-- Game window -->
@@ -953,6 +1012,14 @@ function toggleCat(c) {
   resetCurrentGame();
 }
 
+// Sidebar toggle
+let sidebarOpen = false;
+function toggleSidebar() {
+  sidebarOpen = !sidebarOpen;
+  document.getElementById('game-sidebar').classList.toggle('open', sidebarOpen);
+  document.getElementById('sidebar-toggle').textContent = sidebarOpen ? '✕' : '☰';
+}
+
 // Switch game mode
 const ALL_GAMES = ['flashcard','quiz','typing','matching','speed','listen'];
 function setGame(g) {
@@ -963,6 +1030,10 @@ function setGame(g) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => {
     b.classList.toggle('active', ALL_GAMES[i]===g);
   });
+  // Đóng sidebar sau khi chọn
+  sidebarOpen = false;
+  document.getElementById('game-sidebar').classList.remove('open');
+  document.getElementById('sidebar-toggle').textContent = '☰';
   resetCurrentGame();
 }
 
