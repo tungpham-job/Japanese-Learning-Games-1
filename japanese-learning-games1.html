@@ -871,8 +871,9 @@ body {
     <div class="title-sub" id="header-sub">ひらがな · Basic</div>
   </div>
   <div class="header-icons">
+    <button class="hdr-icon-btn" onclick="hardRefresh()" title="Tải lại trang"><i data-lucide="rotate-cw"></i></button>
     <button class="hdr-icon-btn" id="btn-theme" onclick="toggleTheme()" title="Đổi giao diện"><i data-lucide="sun"></i></button>
-    <button class="hdr-icon-btn" id="btn-panel-settings" onclick="togglePanel('settings')" title="Thiết lập"><i data-lucide="settings"></i></button>
+    <button class="hdr-icon-btn" id="btn-panel-settings" onclick="togglePanel('settings')" title="Cài đặt"><i data-lucide="settings"></i></button>
     <button class="hdr-icon-btn" id="btn-panel-games" onclick="togglePanel('games')" title="Chọn game"><i data-lucide="menu"></i></button>
   </div>
 </div>
@@ -2022,6 +2023,15 @@ function updateLPScore() {
   document.getElementById('lp-correct').textContent = lpCorrect;
   document.getElementById('lp-wrong').textContent = lpWrong;
   document.getElementById('lp-total').textContent = lpCorrect+lpWrong;
+}
+
+// ═══════════════════════════════════════════
+// HARD REFRESH
+// ═══════════════════════════════════════════
+function hardRefresh() {
+  const url = new URL(window.location.href);
+  url.searchParams.set('v', Date.now());
+  window.location.replace(url.toString());
 }
 
 // ═══════════════════════════════════════════
