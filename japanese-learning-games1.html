@@ -525,7 +525,7 @@ body {
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--text);
-  font-size: 1.4rem;
+  font-size: 2.3rem;
   font-weight: 700;
   padding: 18px 10px;
   border-radius: var(--radius-sm);
@@ -651,7 +651,7 @@ body {
 .m-tile.matched.type-kana .tile-kana { color: var(--correct); }
 /* romaji tile: big romaji text */
 .m-tile.type-rom .tile-rom {
-  font-size: 1.3rem;
+  font-size: 2.3rem;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   color: var(--text);
@@ -833,9 +833,9 @@ body {
   .kana-big,.q-kana,.t-kana { font-size: 4.5rem; }
   .m-tile { height: clamp(46px, 8vh, 64px); }
   .m-tile.type-kana .tile-kana { font-size: 1.6rem; }
-  .m-tile.type-rom .tile-rom { font-size: 0.85rem; }
+  .m-tile.type-rom .tile-rom { font-size: 1.5rem; }
   .quiz-options { gap: 8px; }
-  .opt-btn { padding: 14px 6px; font-size: 0.95rem; }
+  .opt-btn { padding: 14px 6px; font-size: 1.6rem; }
 
   /* Game zone: bỏ padding để game-window chiếm full width */
   .game-zone { padding: 10px 10px 0; gap: 0; }
@@ -1048,7 +1048,7 @@ body {
       <div class="m-header">
         <div>
           <div class="m-timer" id="m-timer">0:00</div>
-          <div class="m-stats">Cặp: <span id="m-pairs">0</span>/<span id="m-total-pairs">10</span> · Nước: <span id="m-moves">0</span></div>
+          <div class="m-stats">Cặp từ: <span id="m-pairs">0</span>/<span id="m-total-pairs">10</span> · Lượt chọn: <span id="m-moves">0</span></div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <button class="btn-start btn-start-green" id="m-start-btn" onclick="doStartMatching()"><i data-lucide="play"></i> Start</button>
@@ -1667,7 +1667,7 @@ function selectMatchTile(id) {
     if (matchPairs === matchSize) {
       matchDone = true; clearInterval(matchInterval);
       const m = Math.floor(matchTimer/60), s = matchTimer%60;
-      document.getElementById('m-result-msg').innerHTML = `🎉 Cleared in ${m}:${String(s).padStart(2,'0')} với ${matchMoves} nước!`;
+      document.getElementById('m-result-msg').innerHTML = `🎉 Hoàn thành trong ${m}:${String(s).padStart(2,'0')} với ${matchMoves} lượt chọn!`;
     }
   } else {
     el.classList.add('wrong-flash'); prevEl.classList.add('wrong-flash');
