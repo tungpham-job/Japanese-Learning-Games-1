@@ -5,7 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>日本語学習 — Japanese Learning Games</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script>
+// Load Lucide và gọi createIcons ngay khi script sẵn sàng
+(function() {
+  var s = document.createElement('script');
+  s.src = 'https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js';
+  s.onload = function() {
+    if (typeof initApp === 'function') initApp();
+    else window._lucideReady = true;
+  };
+  document.head.appendChild(s);
+})();
+</script>
 <style>
 :root {
   --bg: #0D0F1A;
@@ -458,6 +469,34 @@ body {
 .fc-controls .btn-primary:hover { background: #f0c030; }
 .progress-text { color: var(--muted); font-size: 0.85rem; min-width: 70px; text-align: center; }
 
+/* ─── GAME OVER SCREEN ─── */
+.game-over {
+  text-align: center;
+  padding: 30px 20px;
+}
+.game-over-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.game-over-sub {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.game-over-stats {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+.game-over-stat .stat-num { font-size: 2.2rem; font-weight: 900; }
+.game-over-stat .stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+.game-over-stat.ok .stat-num { color: var(--correct); }
+.game-over-stat.bad .stat-num { color: var(--wrong); }
+.game-over-stat.total .stat-num { color: var(--text); }
+
 /* ─── QUIZ ─── */
 #game-quiz .q-card {
   background: var(--card);
@@ -525,10 +564,10 @@ body {
   line-height: 1;
   margin-bottom: 8px;
 }
-.t-input-wrap { margin-bottom: 12px; }
+.t-input-wrap { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
 .t-input {
-  display: block;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   background: var(--card);
   border: 1.5px solid var(--border);
   color: var(--text);
@@ -546,13 +585,7 @@ body {
 .t-input:focus { border-color: var(--accent); }
 .t-input.correct { border-color: var(--correct); background: #1A3A30; color: #fff; }
 .t-input.wrong { border-color: var(--wrong); background: #3A1A20; color: #fff; }
-.t-action-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-}
+
 .t-submit {
   border: none;
   background: var(--accent);
@@ -1002,11 +1035,9 @@ body {
       </div>
       <div class="t-feedback" id="t-feedback"></div>
       <div class="t-input-wrap">
+        <button class="btn-start" style="flex-shrink:0;font-size:0.85rem;padding:11px 16px;background:transparent;color:var(--muted);border:1px solid var(--border)" onclick="skipTyping()">Skip</button>
         <input class="t-input" id="t-input" type="text" placeholder="gõ romaji…" autocomplete="off" autocapitalize="off" spellcheck="false" onkeydown="handleTypingKey(event)">
-      </div>
-      <div class="t-action-row">
-        <button class="t-submit" style="padding:13px 36px;font-size:1rem" onclick="checkTyping()">OK</button>
-        <button class="btn-start" style="position:absolute;right:0;font-size:0.85rem;padding:9px 18px;background:transparent;color:var(--muted);border:1px solid var(--border)" onclick="skipTyping()">Bỏ qua →</button>
+        <button class="t-submit" onclick="checkTyping()">OK</button>
       </div>
     </div>
 
@@ -1371,7 +1402,7 @@ function startQuiz() {
 }
 
 function renderQuestion() {
-  if (qIndex >= qPool.length) { const p=shuffle(getPool()); qPool=gameRoundLimit?p.slice(0,gameRoundLimit):p; qIndex=0; }
+  if (qIndex >= qPool.length) { showGameOver('quiz', qCorrect, qWrong); return; }
   const pool = getPool();
   const [kana, correct] = qPool[qIndex];
   const kanaEl = document.getElementById('q-kana');
@@ -1468,7 +1499,7 @@ function startTyping() {
 }
 
 function renderTyping() {
-  if (tIndex >= tPool.length) { const p=shuffle(getPool()); tPool=gameRoundLimit?p.slice(0,gameRoundLimit):p; tIndex=0; }
+  if (tIndex >= tPool.length) { showGameOver('typing', tCorrect, tWrong); return; }
   const [kana, rom] = tPool[tIndex];
   const display = tReverse ? rom : kana;
   const kanaEl = document.getElementById('t-kana');
@@ -1703,7 +1734,7 @@ function doStartSpeed() {
 function startSpeed() { resetSpeed(); }
 
 function renderSpeed() {
-  if (srIndex >= srPool.length) { srPool = shuffle(getPool()); srIndex=0; }
+  if (srIndex >= srPool.length) { showGameOver('speed', srCorrect, srWrong); return; }
   clearInterval(srCountdown);
   srAnswered = false;
 
@@ -2149,15 +2180,46 @@ function applyKanaPicker() {
 }
 
 // ═══════════════════════════════════════════
+// GAME OVER
+// ═══════════════════════════════════════════
+function showGameOver(gameId, correct, wrong) {
+  const total = correct + wrong;
+  const pct = total > 0 ? Math.round(correct / total * 100) : 0;
+  const el = document.getElementById('game-' + gameId);
+  el.innerHTML = `
+    <div class="game-over">
+      <div class="game-over-title">🎉 Hoàn tất!</div>
+      <div class="game-over-sub">Bạn đã hoàn thành ${total} câu</div>
+      <div class="game-over-stats">
+        <div class="game-over-stat ok"><div class="stat-num">${correct}</div><div class="stat-label">Đúng</div></div>
+        <div class="game-over-stat total"><div class="stat-num">${total}</div><div class="stat-label">Tổng</div></div>
+        <div class="game-over-stat bad"><div class="stat-num">${wrong}</div><div class="stat-label">Sai</div></div>
+      </div>
+      <div style="font-size:1rem;color:var(--muted);margin-bottom:24px">Tỉ lệ đúng: <strong style="color:var(--accent)">${pct}%</strong></div>
+      <button class="btn-start" onclick="resetCurrentGame()">🔄 Chơi lại</button>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
-initFlashcard();
-startQuiz();
-startTyping();
-resetMatching();
-resetSpeed();
-startListen();
-lucide.createIcons();
+function initApp() {
+  initFlashcard();
+  startQuiz();
+  startTyping();
+  resetMatching();
+  resetSpeed();
+  lucide.createIcons();
+}
+
+// initApp được gọi từ onload của Lucide script
+// Nếu Lucide đã load trước (cache), gọi luôn
+if (typeof lucide !== 'undefined') {
+  initApp();
+} else {
+  window._lucideReady = false;
+}
 </script>
 </body>
 </html>
