@@ -617,13 +617,13 @@ body {
 .m-stats { color: var(--muted); font-size: 0.82rem; }
 .m-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 18px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 7px;
+  margin-bottom: 12px;
 }
-/* Matching tile — no sub-label, bigger kana */
+/* Matching tile — 5 cols, height cố định vừa viewport */
 .m-tile {
-  aspect-ratio: 1;
+  height: clamp(52px, 9vh, 80px);
   border: 1.5px solid var(--border);
   background: var(--card);
   border-radius: var(--radius-sm);
@@ -831,8 +831,9 @@ body {
 
 @media(max-width:600px){
   .kana-big,.q-kana,.t-kana { font-size: 4.5rem; }
-  .m-tile.type-kana .tile-kana { font-size: 1.7rem; }
-  .m-tile.type-rom .tile-rom { font-size: 0.9rem; }
+  .m-tile { height: clamp(46px, 8vh, 64px); }
+  .m-tile.type-kana .tile-kana { font-size: 1.6rem; }
+  .m-tile.type-rom .tile-rom { font-size: 0.85rem; }
   .quiz-options { gap: 8px; }
   .opt-btn { padding: 14px 6px; font-size: 0.95rem; }
 
@@ -1047,7 +1048,7 @@ body {
       <div class="m-header">
         <div>
           <div class="m-timer" id="m-timer">0:00</div>
-          <div class="m-stats">Pairs: <span id="m-pairs">0</span>/<span id="m-total-pairs">8</span> · Moves: <span id="m-moves">0</span></div>
+          <div class="m-stats">Cặp: <span id="m-pairs">0</span>/<span id="m-total-pairs">10</span> · Nước: <span id="m-moves">0</span></div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
           <button class="btn-start btn-start-green" id="m-start-btn" onclick="doStartMatching()"><i data-lucide="play"></i> Start</button>
@@ -1055,8 +1056,8 @@ body {
         </div>
       </div>
       <div class="m-size-btns">
-        <button class="m-size-btn active" onclick="setMatchSize(8)">8 pairs</button>
-        <button class="m-size-btn" onclick="setMatchSize(12)">12 pairs</button>
+        <button class="m-size-btn active" onclick="setMatchSize(10)">10 cặp từ</button>
+        <button class="m-size-btn" onclick="setMatchSize(15)">15 cặp từ</button>
       </div>
       <div class="m-grid" id="m-grid"></div>
       <div style="text-align:center;padding:8px 0">
@@ -1573,13 +1574,13 @@ function updateStreakDisplay() {
 // ═══════════════════════════════════════════
 // MATCHING
 // ═══════════════════════════════════════════
-let matchSize = 8, matchTiles = [], matchSelected = null, matchPairs = 0, matchMoves = 0;
+let matchSize = 10, matchTiles = [], matchSelected = null, matchPairs = 0, matchMoves = 0;
 let matchTimer = 0, matchInterval = null, matchDone = false;
 
 function setMatchSize(n) {
   matchSize = n;
   document.querySelectorAll('.m-size-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.trim().startsWith(n));
+    b.classList.toggle('active', b.textContent.trim() === n + ' cặp từ');
   });
   resetMatching();
 }
@@ -1621,7 +1622,7 @@ function startMatching() { resetMatching(); }
 
 function renderMatchGrid(disabled) {
   const grid = document.getElementById('m-grid');
-  grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  grid.style.gridTemplateColumns = '';
   grid.innerHTML = '';
   matchTiles.forEach(tile => {
     const el = document.createElement('div');
