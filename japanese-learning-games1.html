@@ -2185,20 +2185,36 @@ function applyKanaPicker() {
 function showGameOver(gameId, correct, wrong) {
   const total = correct + wrong;
   const pct = total > 0 ? Math.round(correct / total * 100) : 0;
-  const el = document.getElementById('game-' + gameId);
-  el.innerHTML = `
-    <div class="game-over">
-      <div class="game-over-title">🎉 Hoàn tất!</div>
+  // Dùng overlay phủ lên game window, không xóa HTML game
+  let overlay = document.getElementById('gameover-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'gameover-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.72);padding:20px';
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px 32px;max-width:360px;width:100%;text-align:center">
+      <div style="font-size:2rem;margin-bottom:6px">🎉</div>
+      <div class="game-over-title">Hoàn tất!</div>
       <div class="game-over-sub">Bạn đã hoàn thành ${total} câu</div>
       <div class="game-over-stats">
         <div class="game-over-stat ok"><div class="stat-num">${correct}</div><div class="stat-label">Đúng</div></div>
         <div class="game-over-stat total"><div class="stat-num">${total}</div><div class="stat-label">Tổng</div></div>
         <div class="game-over-stat bad"><div class="stat-num">${wrong}</div><div class="stat-label">Sai</div></div>
       </div>
-      <div style="font-size:1rem;color:var(--muted);margin-bottom:24px">Tỉ lệ đúng: <strong style="color:var(--accent)">${pct}%</strong></div>
-      <button class="btn-start" onclick="resetCurrentGame()">🔄 Chơi lại</button>
+      <div style="font-size:0.95rem;color:var(--muted);margin-bottom:28px">Tỉ lệ đúng: <strong style="color:var(--accent)">${pct}%</strong></div>
+      <button class="btn-start" onclick="closeGameOver()"><i data-lucide="refresh-ccw"></i> New Game</button>
     </div>
   `;
+  overlay.style.display = 'flex';
+  lucide.createIcons({ nodes: [overlay] });
+}
+
+function closeGameOver() {
+  const overlay = document.getElementById('gameover-overlay');
+  if (overlay) overlay.style.display = 'none';
+  resetCurrentGame();
 }
 
 // ═══════════════════════════════════════════
